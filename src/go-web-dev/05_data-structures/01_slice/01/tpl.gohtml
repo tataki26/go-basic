@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Peeps</title>
+</head>
+<body>
+<ul>
+    <!-- [loop] the range of the current data(slice) [out of this .]  -->
+    {{range .}}
+    <!-- . : current data(element) [input of that .] -->
+    <li>{{.}}</li>
+    {{end}} <!-- the end of range -->
+</ul>
+</body>
+</html>
