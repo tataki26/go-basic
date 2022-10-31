@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>functions</title>
+</head>
+<body>
+    {{range .Food}}
+    <!-- how to use function in template -->
+    {{uc .Name}}
+    {{end}}
+    {{range .Food}}
+    {{ft .Name}}
+    {{end}}
+</body>
+</html>
