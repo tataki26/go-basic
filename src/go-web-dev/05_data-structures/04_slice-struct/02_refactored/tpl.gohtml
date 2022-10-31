@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food & Transport</title>
+</head>
+<body>
+    <ul>
+        <!-- current data: struct (struct.Food) -->
+        {{range .Food}}
+        <!-- current data: slice (fruits.Name) -->
+        <li>{{.Name}} - {{.Color}}</li>
+        {{end}}
+    </ul>
+
+    <ul>
+        {{range .Transport}}
+        <li>{{.Manufacturer}} - {{.Doors}}</li>
+        {{end}}
+    </ul>
+</body>
+</html>
