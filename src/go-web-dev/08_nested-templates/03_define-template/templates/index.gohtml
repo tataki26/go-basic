@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header Menu</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <!-- svg(Scalable Vector Graphics)
+    : an XML-based markup language fro describing 2d based vector graphics -->
+    {{template "svgs"}}
+
+    <!-- the top of web page -->
+    {{template "header"}}
+
+    <!-- body -->
+    <div id="atf">
+        <main>
+            <svg class="icon icon-big-in">
+                <use xlink:href="#inbox"></use>
+            </svg>
+            <h1>Are You In?</h1>
+        </main>
+    </div>
+
+    <!-- btf(Below the Fold)
+    : the portion of a web page, and specifically the ads,
+    that are not visible to the visitor without scrolling -->
+    {{template "btf"}}
+</body>
+</html>
