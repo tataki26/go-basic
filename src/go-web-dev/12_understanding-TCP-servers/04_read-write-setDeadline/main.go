@@ -26,6 +26,8 @@ func main() {
 }
 
 func handle(conn net.Conn) {
+	// set deadline for server program
+	// after 10 Second, the program ends [timeout]
 	err := conn.SetDeadline(time.Now().Add(10 * time.Second))
 	if err != nil {
 		log.Fatalln("CONN TIMEOUT")

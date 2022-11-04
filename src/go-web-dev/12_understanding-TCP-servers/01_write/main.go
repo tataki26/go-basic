@@ -11,7 +11,8 @@ func main() {
 	// li: Listener interface(Accept, Close, Addr)
 	// Close: after program is done, close listener
 	// Accept: accept request(connect, error)
-	// .Listen(network, address)
+	// .Listen(network[protocol], address): wait for network connection
+	// accept connection from all network interface
 	li, err := net.Listen("tcp", ":8080")
 	if err != nil {
 		log.Fatalln(err)
@@ -27,11 +28,12 @@ func main() {
 			log.Println(err)
 		}
 
+		// all methods below are the way to write data to file
+		// they are also the way to send the string to client
 		// .WriteString(Writer, string)
 		// write string to Writer
 		io.WriteString(conn, "\nHello from TCP server\n")
-		// 지정한 출력 stream(conn)에 출력
-		// it internally calls io.WriteString
+		// print to assigned stream(conn)
 		fmt.Fprintln(conn, "How is your day?")
 		fmt.Fprintf(conn, "%v", "Well, I hope!")
 

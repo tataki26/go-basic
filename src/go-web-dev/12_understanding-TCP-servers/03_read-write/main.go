@@ -27,12 +27,17 @@ func main() {
 func handle(conn net.Conn) {
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
+		// read
 		ln := scanner.Text()
+		// print to server program
 		fmt.Println(ln)
 		// Writer
+		// send to client
 		fmt.Fprintf(conn, "I heard you say: %s\n", ln)
 	}
 	defer conn.Close()
 
+	// we never get here
+	// not unitl the client ends first
 	fmt.Println("Code got here.")
 }
