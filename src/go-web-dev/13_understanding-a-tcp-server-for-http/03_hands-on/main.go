@@ -36,19 +36,9 @@ func request(conn net.Conn) {
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
 		ln := scanner.Text()
+		// if it is a start line, start mux(multiplexer)
 		if i == 0 {
-			m := strings.Fields(ln)[0]
-			u := strings.Fields(ln)[1]
-
-			fmt.Println("**METHOD**:", m)
-
-			if u == "/" {
-				respond1(conn)
-			}
-
-			if u == "/welcome" {
-				respond2(conn)
-			}
+			mux(conn, ln)
 		}
 
 		if ln == "" {
@@ -60,8 +50,64 @@ func request(conn net.Conn) {
 
 }
 
-func respond1(conn net.Conn) {
-	body := `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title></title></head><body><strong>Hello World</strong></body></html>`
+func mux(conn net.Conn, ln string) {
+	// request line
+	m := strings.Fields(ln)[0]
+	u := strings.Fields(ln)[1]
+	fmt.Println("**METHOD**:", m)
+	fmt.Println("**URL**:", u)
+
+	// multiplexer
+	// different urls -> different pages
+	if m == "GET" {
+		if u == "/" {
+			index(conn)
+		}
+
+		if u == "/about" {
+			about(conn)
+		}
+
+		if u == "/contact" {
+			contact(conn)
+		}
+
+		if u == "/apply" {
+			apply(conn)
+		}
+	}
+
+	if m == "POST" {
+		if u == "/apply" {
+			applyProcess(conn)
+		}
+	}
+}
+
+func index(conn net.Conn) {
+	body := `<!DOCTYPE html><html lang="en"><head><meta charet="UTF-8"><title></title></head><body>
+	<strong>INDEX</strong><br>
+	<!-- link -->
+	<a href="/">index</a><br>
+	<a href="/about">about</a><br>
+	<a href="/contact">contact</a><br>
+	<a href="/apply">apply</a><br>
+	</body></html>`
+	fmt.Fprint(conn, "HTTP/1.1 200 OK\r\n")
+	fmt.Fprintf(conn, "Content-Length: %d\r\n", len(body))
+	fmt.Fprint(conn, "Content-Type: text/html\r\n")
+	fmt.Fprint(conn, "\r\n")
+	fmt.Fprint(conn, body)
+}
+
+func about(conn net.Conn) {
+	body := `<!DOCTYPE html><html lang="en"><head><meta charet="UTF-8"><title></title></head><body>
+	<strong>ABOUT</strong><br>
+	<a href="/">index</a><br>
+	<a href="/about">about</a><br>
+	<a href="/contact">contact</a><br>
+	<a href="/apply">apply</a><br>
+	</body></html>`
 
 	fmt.Fprint(conn, "HTTP/1.1 200 OK\r\n")
 	fmt.Fprintf(conn, "Content-Length: %d\r\n", len(body))
@@ -70,8 +116,53 @@ func respond1(conn net.Conn) {
 	fmt.Fprint(conn, body)
 }
 
-func respond2(conn net.Conn) {
-	body := `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title></title></head><body><strong>This is Welcome Page</strong></body></html>`
+func contact(conn net.Conn) {
+
+	body := `<!DOCTYPE html><html lang="en"><head><meta charet="UTF-8"><title></title></head><body>
+	<strong>CONTACT</strong><br>
+	<a href="/">index</a><br>
+	<a href="/about">about</a><br>
+	<a href="/contact">contact</a><br>
+	<a href="/apply">apply</a><br>
+	</body></html>`
+
+	fmt.Fprint(conn, "HTTP/1.1 200 OK\r\n")
+	fmt.Fprintf(conn, "Content-Length: %d\r\n", len(body))
+	fmt.Fprint(conn, "Content-Type: text/html\r\n")
+	fmt.Fprint(conn, "\r\n")
+	fmt.Fprint(conn, body)
+}
+
+func apply(conn net.Conn) {
+
+	body := `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title></title></head><body>
+	<strong>APPLY</strong><br>
+	<a href="/">index</a><br>
+	<a href="/about">about</a><br>
+	<a href="/contact">contact</a><br>
+	<a href="/apply">apply</a><br>
+	<!-- when you click button, Post method is called.
+	It changes the state or the data of the server -->
+	<form method="POST" action="/apply">
+	<input type="submit" value="apply">
+	</form>
+	</body></html>`
+
+	fmt.Fprint(conn, "HTTP/1.1 200 OK\r\n")
+	fmt.Fprintf(conn, "Content-Length: %d\r\n", len(body))
+	fmt.Fprint(conn, "Content-Type: text/html\r\n")
+	fmt.Fprint(conn, "\r\n")
+	fmt.Fprint(conn, body)
+}
+
+func applyProcess(conn net.Conn) {
+	body := `<!DOCTYPE html><html lang="en"><head><meta charet="UTF-8"><title></title></head><body>
+	<strong>APPLY PROCESS</strong><br>
+	<a href="/">index</a><br>
+	<a href="/about">about</a><br>
+	<a href="/contact">contact</a><br>
+	<a href="/apply">apply</a><br>
+	</body></html>`
 
 	fmt.Fprint(conn, "HTTP/1.1 200 OK\r\n")
 	fmt.Fprintf(conn, "Content-Length: %d\r\n", len(body))
