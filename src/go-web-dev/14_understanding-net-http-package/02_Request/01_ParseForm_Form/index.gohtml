@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Type Submit</title>
+</head>
+<body>
+    <!-- if there is data in template, it shows the code below -->
+    {{if .}}
+    <main>
+        <p><strong>variable names</strong> (identifiers) and <em>values</em>:</p>
+        <!-- type of Form: url.Values (map[string][]string) -->
+        {{range $key, $value := .}}
+                <p><strong>{{$key}}</strong></p> <!-- key: name of the variable(fname, submit-btn) -->
+                <ul>{{range $value}}<li><em>{{.}}</em></li>{{end}}</ul> <!-- value: value of the variable -->
+        {{end}}
+    </main>
+    {{end}}
+
+    <!-- action says to "Send data to this path" -->
+    <form action="/?fname=James" method="POST"> <!-- url -->
+            <!-- name: the value which user submits to form field -->
+            <input type="text" name="fname" placeholder="first name" autofocus autocomplete="off"> <!-- body -->
+            <!-- submit-btn = "onda button" -->
+            <input type="submit" name="submit-btn" value="onda button">
+    </form>
+</body>
+</html>
