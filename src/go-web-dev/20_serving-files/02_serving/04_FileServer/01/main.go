@@ -17,7 +17,7 @@ func main() {
 }
 
 func dog(w http.ResponseWriter, req *http.Request) {
-	w.Header().Set("Contetn-Type", "text/html; charset=utf-8")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	// browser requests "dog.jpg"
 	io.WriteString(w, `<img src="/dog.jpg">`)
