@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.game-container {
+.movie-container {
   margin: 0 auto;
   width: 80%;
   border: 1px solid #333;
@@ -12,7 +12,7 @@
 }
 
 .form-wrapper{
-  width: 80%;
+  width: 60%;
   margin: 0 auto;
 }
 
@@ -22,17 +22,17 @@
   margin: 10px;
 }
 
-.text-area {
-  width: 80%;
-  min-height: 500px;
-}
-
 .submit-button {
   width: 200px;
   height: 50px;
   font-size: 20px;
-  padding: 20px;
   border: none;
   background: indianred;
   border-radius: 5px;
+  margin-top: 40px;
+  vertical-align: middle;
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+  min-height: 500px;
 }
