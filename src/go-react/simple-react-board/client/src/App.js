@@ -3,6 +3,7 @@ import './App.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ReactHtmlParser from 'html-react-parser';
+import Axios from 'axios';
 
 function App() {
   const [gameContent, setGameContent] = useState({
@@ -11,6 +12,15 @@ function App() {
   });
 
   const [viewContent, setViewContent] = useState([]);
+
+  const submitReview = () => {
+    Axios.post('http://localhost:8080/api/insert', {
+      title: gameContent.title,
+      content: gameContent.content
+    }).then(() => {
+      alert('등록 완료!');
+    })
+  };
 
   const getValue = e => {
     const { name, value } = e.target;
@@ -61,10 +71,8 @@ function App() {
         />
       </div>
       <button className="submit-button"
-      onClick={() => {
-        setViewContent(viewContent.concat({...gameContent}));
-      }
-      }>입력</button>
+      onClick={submitReview}
+      >입력</button>
     </div>
   );
 }
