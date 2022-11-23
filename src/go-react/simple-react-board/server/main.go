@@ -2,51 +2,54 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/rs/cors"
 )
 
 func main() {
-	http.HandleFunc("/", index)
-	http.ListenAndServe(":8080", nil)
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/api/insert", insert)
+
+	handler := cors.Default().Handler(mux)
+
+	http.ListenAndServe(":8080", handler)
 }
 
-func index(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("server is running...")
+var db *sql.DB
 
-	// open mysql server
-	db, err := sql.Open("mysql", "root:0000@tcp(127.0.0.1:3306)/simpleboard")
+type User struct {
+	Title   string
+	Content string
+}
+
+// POST: 버튼 클릭 시, input data json으로 받아와 DB에 저장
+func insert(w http.ResponseWriter, req *http.Request) {
+	var u User
+
+	err := json.NewDecoder(req.Body).Decode(&u)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	title := u.Title
+	content := u.Content
+
+	db, err = sql.Open("mysql", "root:0000@tcp(127.0.0.1:3306)/simpleboard")
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fmt.Printf("DB 연동: %+v\n", db.Stats())
-
-	// execute query
-	conn, err := db.Query("INSERT INTO simpleboard (title, content) VALUES ('test', 'value')")
+	conn, err := db.Query("INSERT INTO simpleboard (title, content) VALUES (?,?)", title, content)
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	fmt.Printf("Connection 생성: %+v\n", db.Stats())
-	io.WriteString(w, "success!!")
-
-	/*
-		// bring data from database
-		for conn.Next() {
-			idx := ""
-			name := ""
-			value := ""
-			if err := conn.Scan(&idx, &name, &value); err != nil {
-				fmt.Println(err)
-			}
-			fmt.Println(idx, name, value)
-		}
-	*/
 
 	conn.Close()
 	fmt.Printf("Connection 연결 종료: %+v\n", db.Stats())
