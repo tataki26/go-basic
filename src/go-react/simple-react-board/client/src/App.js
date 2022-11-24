@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -12,6 +12,12 @@ function App() {
   });
 
   const [viewContent, setViewContent] = useState([]);
+
+  useEffect(()=>{
+    Axios.get('http://localhost:8080/api/get').then((response)=>{
+      setViewContent(response.data)
+    })
+  }, [viewContent])
 
   const submitReview = () => {
     Axios.post('http://localhost:8080/api/insert', {
@@ -33,14 +39,14 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Movie Review</h1>
-      <div className='movie-container'>
+      <h1>Game Review</h1>
+      <div className='game-container'>
         {viewContent.map(element =>
-          <div>
-            <h2>{element.title}</h2>
+          <div style={{ border: '1px solid #333' }}>
+            <h2>{element.Title}</h2>
             <div>
-              {ReactHtmlParser(element.content)}
-              </div>
+             {ReactHtmlParser(element.Content)}
+            </div>
             </div>
             )}
       </div>
