@@ -34,7 +34,7 @@ func showAlbum(w http.ResponseWriter, r *http.Request) {
 	// Not Allowed' response.
 	if r.Method != http.MethodGet {
 		w.Header().Set("Allow", http.MethodGet)
-		http.Error(w, http.StatusText(405), 405)
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
 	}
 
