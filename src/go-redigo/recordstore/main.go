@@ -113,5 +113,5 @@ func addLike(w http.ResponseWriter, r *http.Request) {
 
 	// Redirect the client to the GET /album route, so they can see the
 	// impact their like has had.
-	http.Redirect(w, r, "/album?id="+id, 303)
+	http.Redirect(w, r, "/album?id="+id, http.StatusSeeOther)
 }
