@@ -25,6 +25,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/album", showAlbum)
 	mux.HandleFunc("/like", addLike)
+	mux.HandleFunc("/popular", listPopular)
 
 	log.Print("Listening on :4000...")
 	http.ListenAndServe(":4000", mux)
@@ -114,4 +115,28 @@ func addLike(w http.ResponseWriter, r *http.Request) {
 	// Redirect the client to the GET /album route, so they can see the
 	// impact their like has had.
 	http.Redirect(w, r, "/album?id="+id, http.StatusSeeOther)
+}
+
+func listPopular(w http.ResponseWriter, r *http.Request) {
+	// Unless the request is using the GET method, return a 405 'Method Not
+	// Allowed' response.
+	if r.Method != http.MethodGet {
+		w.Header().Set("Allow", http.MethodGet)
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Call the FindTopThree() function, returning a return a 500 Internal
+	// Server Error response if there's any error.
+	albums, err := FindTopThree()
+	if err != nil {
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+
+	// Loop through the 3 albums, writing the details as a plain text list
+	// to the client.
+	for i, ab := range albums {
+		fmt.Fprintf(w, "%d) %s by %s: £%.2f [%d likes] \n", i+1, ab.Title, ab.Artist, ab.Price, ab.Likes)
+	}
 }
