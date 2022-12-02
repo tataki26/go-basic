@@ -1,36 +1,39 @@
 package main
 
 import (
-	"html/template"
+	"encoding/json"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/gomodule/redigo/redis"
+	"github.com/rs/cors"
 )
 
+type Connection struct {
+	Id string
+}
+
 func main() {
-	http.HandleFunc("/", index)
+	mux := http.NewServeMux()
 
-	http.ListenAndServe(":8080", nil)
+	mux.HandleFunc("/api/insert", insert)
+	mux.Handle("/favicon.ico", http.NotFoundHandler())
+
+	handler := cors.Default().Handler(mux)
+
+	http.ListenAndServe(":8080", handler)
 }
 
-var tpl *template.Template
+func insert(w http.ResponseWriter, req *http.Request) {
+	var c Connection
 
-func init() {
-	tpl = template.Must(template.ParseFiles("index.gohtml"))
-}
-
-func index(w http.ResponseWriter, req *http.Request) {
-	var id int
-	var err error
-
-	if req.Method == http.MethodPost {
-		id, err = strconv.Atoi(req.FormValue("ethernetid"))
-		if err != nil {
-			log.Fatal(err)
-		}
+	err := json.NewDecoder(req.Body).Decode(&c)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
+
+	id := c.Id
 
 	conn, err := redis.Dial("tcp", "localhost:6379")
 	if err != nil {
@@ -43,5 +46,4 @@ func index(w http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 
-	tpl.ExecuteTemplate(w, "index.gohtml", id)
 }
