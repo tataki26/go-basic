@@ -15,7 +15,7 @@ func main() {
 
 func foo(w http.ResponseWriter, req *http.Request) {
 	// return request context
-	// to control work flow(set work time, work cancellation, ...)
+	// to control work flow(set deadline, cancellation signal, ...)
 	ctx := req.Context()
 
 	log.Println(ctx)
