@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <script>
+            // we can access to session storage only with JavaScript
+            // key - value
+            sessionStorage.setItem('favoriteflavor', 'vanilla');
+            // get value with key
+            var taste = sessionStorage.getItem('favoriteflavor');
+            console.log(taste);
+
+            // remove key
+            // when we close the browser, session storage is removed
+            // sessionStorage.removeItem('favoriteflavor');
+
+            taste = sessionStorage.getItem('favoriteflavor');
+            console.log(taste);
+        </script>
+    </body>
+</html>

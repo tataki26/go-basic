@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <script>
+            // we can access to local storage only with JavaScript
+            // key - value
+            localStorage.setItem('favoriteflavor','vanilla');
+            // get value with key
+            var taste = localStorage.getItem('favoriteflavor');
+            console.log(taste);
+
+            // remove key
+            // local storage is maintained unless we remove it
+            // localStorage.removeItem('favoriteflavor');
+
+            taste = localStorage.getItem('favoriteflavor');
+            console.log(taste);
+        </script>
+    </body>
+</html>
