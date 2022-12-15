@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// Background returns an empty Context which is never canceled, has no values, and has no deadline
-	// WithCancel returns a copy of parent with a new Done channel
+	// WithCancel returns a copy of parent with a new Done channel - we can send cancel sinal to context made by WithCancel
 	// send context to new cancel and delay it
 	ctx, cancel := context.WithCancel(context.Background())
 	// make sure all paths cancel the context to avoid context leak(process keeps running <-- avoid)

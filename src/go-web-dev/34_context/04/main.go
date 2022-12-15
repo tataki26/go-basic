@@ -65,7 +65,7 @@ func dbAccess(ctx context.Context) (int, error) {
 	case <-ctx.Done(): // channel event
 		return 0, ctx.Err() // timeout error
 	// get value from channel
-	case i := <-ch: // if the value is in the channel, it will be removed
+	case i := <-ch: // if the value is in the channel, error is nil
 		return i, nil
 	}
 }
