@@ -23,6 +23,10 @@ go.work
 # directories
 cache/
 
+# security /ssl
+*.pem
+*.xxjson
+
 ### Node ###
 # Logs
 logs
