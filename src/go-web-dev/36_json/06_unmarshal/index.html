@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+        <!-- IMPORTANT -->
+        <!-- this is JavaScript, not Go code -->
+    <script>
+        var picture = {
+            "Width": 800,
+            "Height": 600,
+            "Title": "View from 15th Floor",
+            "Thumbnail": {
+                "Url": "http://www.example.com/image/481989943",
+                "Height": 125,
+                "Width": 100
+            },
+            "Animated": false,
+            "IDs": [116, 943, 243, 38793]
+        };
+
+        // JS Object to JSON string
+        // convert into JSON at once
+        var transmit = JSON.stringify(picture);
+        // bring its result to JSON-to-Go >> unmarshalling
+        // JSON to Go data struct
+        document.write(transmit);
+    </script>
+    </body>
+</html>
