@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+        <!-- IMPORTANT -->
+        <!-- this is JavaScript, not Go code -->
+        <script>
+            var name = "Todd";
+            var age = 42;
+            var answer = true;
+            var temp = null;
+
+            // string, int, bool, null are all JSON
+            var transmit = JSON.stringify(name);
+            var transmit2 = JSON.stringify(age);
+            var transmit3 = JSON.stringify(answer);
+            var transmit4 = JSON.stringify(temp);
+
+            document.write(transmit);
+            document.write(transmit2);
+            document.write(transmit3);
+            document.write(transmit4);
+        </script>
+    </body>
+</html>
