@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Index</title>
+        <style>
+            body {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            h1 {
+                font-size: 5vw;
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Make Something Happen</h1>
+        <script>
+            document.querySelector('h1').onclick = makeRequest;
+
+            function makeRequest() {
+                var xhr = new XMLHttpRequest();
+
+                xhr.open('GET', '/foo', true);
+
+                // automatically update DOM
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                        var b = document.querySelector('body');
+                        // create element
+                        var myHeadingOne = document.createElement('h1');       
+                        var myHeadingOneText = document.createTextNode(xhr.responseText);
+
+                        // add the element to existed element of the page
+                        myHeadingOne.appendChild(myHeadingOneText);
+                        // attach 'h1' to body element
+                        b.appendChild(myHeadingOne);
+                    }
+                };
+
+                xhr.send();
+            }
+        </script>
+    </body>
+</html>
