@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"mongodb/03_post_delete/models"
 	"net/http"
 
@@ -67,8 +68,10 @@ func createUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	u := models.User{}
 
 	// encode/decode for sending/receiving JSON to/from a stream
-	// *****no data - solve it later!!!*****
-	json.NewDecoder(r.Body).Decode(&u)
+	err := json.NewDecoder(r.Body).Decode(&u)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	// Change Id
 	u.Id = "007"

@@ -39,14 +39,14 @@ func (uc UserController) GetUser(w http.ResponseWriter, r *http.Request, p httpr
 func (uc UserController) CreateUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	u := models.User{}
 
-	json.NewDecoder(r.Body).Decode(&u)
-
-	u.Id = "007"
-
-	uj, err := json.Marshal(u)
+	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	u.Id = "007"
+
+	uj, _ := json.Marshal(u)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated) // 201
