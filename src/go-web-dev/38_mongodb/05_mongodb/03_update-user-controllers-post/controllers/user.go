@@ -25,7 +25,8 @@ func (uc UserController) GetUser(w http.ResponseWriter, r *http.Request, p httpr
 		Name:   "James Bond",
 		Gender: "male",
 		Age:    32,
-		Id:     p.ByName("id"),
+		// temp
+		// Id:     p.ByName("id"),
 	}
 
 	uj, err := json.Marshal(u)
