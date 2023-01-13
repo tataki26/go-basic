@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"mongodb/05_mongodb/04_update-user-controllers-get/models"
 	"net/http"
 
@@ -37,10 +38,12 @@ func (uc UserController) GetUser(w http.ResponseWriter, r *http.Request, p httpr
 
 	// Fetch user
 	// collection: group of Document (similar with table)
-	cu := uc.client.Database("go-web-dev-db").Collection("user")
+	cu := uc.client.Database("go-web-dev-db").Collection("users")
 
 	// get a record and put into u
-	if err := cu.FindOne(context.TODO(), bson.M{"_id": oid}).Decode(&u); err != nil {
+	err = cu.FindOne(context.TODO(), bson.M{"_id": oid}).Decode(&u)
+	if err != nil {
+		log.Fatalln(err)
 		w.WriteHeader(404)
 		return
 	}
@@ -66,7 +69,11 @@ func (uc UserController) CreateUser(w http.ResponseWriter, r *http.Request, _ ht
 	u.Id = primitive.NewObjectID()
 
 	// store the user in mongodb
-	uc.client.Database("go-web-dev-db").Collection("users").InsertOne(context.TODO(), u)
+	// context.TODO() => instead of nil
+	_, err := uc.client.Database("go-web-dev-db").Collection("users").InsertOne(context.TODO(), u)
+	if err != nil {
+		log.Println(err)
+	}
 
 	uj, err := json.Marshal(u)
 	if err != nil {
